@@ -220,7 +220,7 @@ const SHOP_DATA = [
       },
       {
         id: 3,
-        name: 'Black &amp; White Longsleeve',
+        name: 'Black & White Longsleeve',
         imageUrl: 'https://i.ibb.co/55z32tw/long-sleeve.png',
         price: 25
       },
