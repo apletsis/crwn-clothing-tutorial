@@ -7,3 +7,7 @@ a {
   text-decoration: none;
   color: #000000;
 }
+
+* { /* all elements */
+  box-sizing: border-box;
+}
