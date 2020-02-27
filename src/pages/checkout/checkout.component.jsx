@@ -23,7 +23,7 @@ const renderHeaderBlock = () => {
 
   return headerTitles.map((title, index) => {
     return (
-      <div className="header-block" key={index}>
+      <div className="header-block" key={title}>
         <span>{title}</span>
       </div>
     );
