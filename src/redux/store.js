@@ -6,7 +6,11 @@ import rootReducer from "./root-reducer";
 
 /* we can add new middlewares to middlewares array and use each item from that array
    as an argument for applyMiddleware function using spread operator*/
-const middlewares = [logger];
+const middlewares = [];
+
+if (process.env.NODE_ENV === 'development') {
+   middlewares.push(logger);
+}
 
 export const store = createStore(rootReducer, applyMiddleware(...middlewares));
 
