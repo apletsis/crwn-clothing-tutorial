@@ -47,6 +47,41 @@ export const firestore = firebase.firestore();
 //firestore.collection('users').doc('some_id').collection('cartItems').doc('some_id');
 //firestore.doc('/users/some_id/cartItems/some_id');
 //firestore.collection('/users/some_id/cartitems');
+
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+  const collectionRef = firestore.collection(collectionKey);
+  console.log(collectionRef);
+
+  const batch = firestore.batch();
+  objectsToAdd.forEach(obj => {
+    const newDocRef = collectionRef.doc();
+    batch.set(newDocRef, obj);
+  });
+
+  return await batch.commit();
+};
+
+export const convertCollectionsSnapshotToMap = (collections) => {
+  const transformedCollection = collections.docs.map(doc => {
+    const { title, items } = doc.data();
+
+    return {
+      routeName: encodeURI(title.toLowerCase()),
+      id: doc.id,
+      title,
+      items,
+    };
+  });
+
+  // second parametr ({}) is an initial object for the first iteration,
+  // and on each iteration create property with appropriate value as an collection
+  // so it will looks like accumulator['hats'] = hats(as a collection)
+  return transformedCollection.reduce((accumulator, collection) => {
+    accumulator[collection.title.toLowerCase()] = collection;
+    return accumulator;
+  },{})
+};
+
 export const auth = firebase.auth();
 
 const provider = new firebase.auth.GoogleAuthProvider();
