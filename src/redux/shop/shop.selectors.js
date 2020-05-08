@@ -20,13 +20,13 @@ export const selectCollections = createSelector(
 export const selectColectionsForPreview = createSelector(
   [selectCollections],
   // get all keys from collections object, then map over this array to get values
-  collections => Object.keys(collections).map(key => collections[key])
+  collections => collections ? Object.keys(collections).map(key => collections[key]) : []
 );
 
 export const selectCollection = collectionUrlParam =>
   createSelector(
     [selectCollections],
-    collections => collections[collectionUrlParam]
+    collections => collections ? collections[collectionUrlParam] : null
     // before data normalization in shop.data.js
     // collections.find(
     //   collection => collection.id === COLLECTION_ID_MAP[collectionUrlParam]

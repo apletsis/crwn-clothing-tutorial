@@ -73,7 +73,7 @@ export const convertCollectionsSnapshotToMap = (collections) => {
     };
   });
 
-  // second parametr ({}) is an initial object for the first iteration,
+  // second parameter ({}) is an initial object for the first iteration,
   // and on each iteration create property with appropriate value as an collection
   // so it will looks like accumulator['hats'] = hats(as a collection)
   return transformedCollection.reduce((accumulator, collection) => {
