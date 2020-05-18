@@ -2,7 +2,7 @@ import ShopActionTypes from "./shop.types";
 
 const INITIAL_STATE = {
   collections: null,
-  isFethcing: false,
+  isFetching: false,
   errorMessage: ''
 };
 
@@ -11,20 +11,19 @@ const shopReducer = (state = INITIAL_STATE, action) => {
     case ShopActionTypes.FETCH_COLLECTIONS_START:
       return {
         ...state,
-        isFethcing: true
+        isFetching: true
       };
     case ShopActionTypes.FETCH_COLLECTIONS_SUCCESS:
       return {
         ...state,
         collections: action.payload,
-        isFethcing: false
+        isFetching: false
       };
     case ShopActionTypes.FETCH_COLLECTIONS_FAILURE:
       return {
         ...state,
-        isFethcing: false,
+        isFetching: false,
         errorMessage: action.payload
-        
       }
     default:
       return state;

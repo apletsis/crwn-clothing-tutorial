@@ -26,7 +26,7 @@ export const selectColectionsForPreview = createSelector(
 export const selectCollection = collectionUrlParam =>
   createSelector(
     [selectCollections],
-    collections => collections ? collections[collectionUrlParam] : null
+    collections => (collections ? collections[collectionUrlParam] : null)
     // before data normalization in shop.data.js
     // collections.find(
     //   collection => collection.id === COLLECTION_ID_MAP[collectionUrlParam]
