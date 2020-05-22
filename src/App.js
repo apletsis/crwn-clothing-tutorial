@@ -12,46 +12,46 @@ import ShopPage from "./pages/shop/shop.component";
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
 import CheckoutPage from "./pages/checkout/checkout.component"
 
-import { auth, createUserProfileDocument/*, addCollectionAndDocuments*/ } from "./firebase/firebase.utils";
-
-import { setCurrentUser } from "./redux/user/user.actions";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 // import { selectColectionsForPreview } from "./redux/shop/shop.selectors";
+import { checkUserSession } from "./redux/user/user.actions";
 
 class App extends Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    const { setCurrentUser/*, collectionsArray*/ } = this.props;
+    const { checkUserSession } = this.props;
+    checkUserSession();
+    // const { setCurrentUser/*, collectionsArray*/ } = this.props;
 
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-      if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth); //return userRef object
+    // this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+    //   if (userAuth) {
+    //     const userRef = await createUserProfileDocument(userAuth); //return userRef object
 
-        userRef.onSnapshot(snapShot => {
-          // this.setState({ // since setState is async, we need to wait to end of it and logged something
-          //   currentUser: {
-          //     id: snapShot.id,
-          //     ...snapShot.data()
-          //   }
-          // }/*,
-          // () => {
-          //   console.log(this.state);
-          // }*/);
-          setCurrentUser({
-            id: snapShot.id,
-            ...snapShot.data()
-          });
-        });
-      } else {
-        setCurrentUser(userAuth); // null
-      }
-      // addCollectionAndDocuments(
-      //   'collections',
-      //   // collectionsArray.map returns objects with title and items attributes
-      //   collectionsArray.map(({ title, items }) => ({ title, items }))
-      // );
-    });
+    //     userRef.onSnapshot(snapShot => {
+    //       // this.setState({ // since setState is async, we need to wait to end of it and logged something
+    //       //   currentUser: {
+    //       //     id: snapShot.id,
+    //       //     ...snapShot.data()
+    //       //   }
+    //       // }/*,
+    //       // () => {
+    //       //   console.log(this.state);
+    //       // }*/);
+    //       setCurrentUser({
+    //         id: snapShot.id,
+    //         ...snapShot.data()
+    //       });
+    //     });
+    //   } else {
+    //     setCurrentUser(userAuth); // null
+    //   }
+    //   // addCollectionAndDocuments(
+    //   //   'collections',
+    //   //   // collectionsArray.map returns objects with title and items attributes
+    //   //   collectionsArray.map(({ title, items }) => ({ title, items }))
+    //   // );
+    // });
   }
 
   componentWillUnmount() {
@@ -59,6 +59,8 @@ class App extends Component {
   }
 
   render() {
+    const { currentUser } = this.props;
+
     return (
       <div>
         <Header /> {/* Header allways rendered */}
@@ -70,7 +72,7 @@ class App extends Component {
             exact
             path="/signin"
             render={() =>
-              this.props.currentUser ? (
+              currentUser ? (
                 <Redirect to="/" />
               ) : (
                 <SignInAndSignUpPage />
@@ -93,7 +95,7 @@ const mapStateToProps = createStructuredSelector ({
 // });
 
 const mapDispatchToProps = dispatch => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user)) //dispatch an object
-});
+  checkUserSession: () => dispatch(checkUserSession())
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(App); //null is because we don't need currentUser state in this component
